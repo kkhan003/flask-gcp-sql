@@ -36,4 +36,3 @@ class Child (db.Model):
 
     def __repr__ (self):
         return '<Child {}>'.format (self.nam)
-

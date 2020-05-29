@@ -1,13 +1,9 @@
-runtime: python
-env: flex
+runtime: python37
 entrypoint: gunicorn -b :$PORT app:app
-
-runtime_config:
-  python_version: 3
 
 env_variables:
   GOOGLE_APPLICATION_CREDENTIALS: 'key.json'
 
-skip_files:
-  venv
-
+handlers:
+- url: /.*
+  script: auto
