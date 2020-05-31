@@ -3,3 +3,10 @@ Flask-SQLAlchemy==2.3.2
 gunicorn==19.8.1
 SQLAlchemy==1.2.9
 pg8000==1.15.2
+google-auth==1.16.0
+requests==2.23.0
+Flask-WTF==0.14.3
+pandas==1.0.3
+python-dateutil==2.8.1
+WTForms==2.3.1
+wtforms-html5==0.2.2

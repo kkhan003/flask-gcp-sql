@@ -1,38 +1,34 @@
 from app import db
 import json
-# import datetime
-# 'tim': int ((self.tim - datetime.datetime (1970, 1, 1)).total_seconds ()),
 
-class Parent (db.Model):
-    pid = db.Column (db.Integer, primary_key = True)
-    ema = db.Column (db.String (255), nullable = False, unique = True)
-    nam = db.Column (db.String (255), nullable = False)
+class LeaseInfo(db.Model):
+    __tablename__ = 'lease_info'
+    lid = db.Column(db.Integer, primary_key = True)
+    lease_no = db.Column(db.Integer(), nullable = False)
+    lease_co = db.Column(db.String(), nullable = False)
+    lease_type = db.Column(db.String(), nullable = False)
+    payment_terms = db.Column(db.String(), nullable = False)
+    period_desc = db.Column(db.String(), nullable = False)
+    start_date = db.Column(db.DateTime, nullable = False)
+    end_date = db.Column(db.DateTime, nullable = False)
+    rate = db.Column(db.Float(), nullable = False)
+    rental = db.Column(db.Integer, nullable = False)
+    full_calcs = db.relationship('FullCalcs', backref = 'info', lazy = True, cascade="all, delete-orphan")
 
-    children = db.relationship ('Child', backref = 'parent', lazy = True, cascade = 'all, delete-orphan')
+class FullCalcs(db.Model):
+    __tablename__ = 'full_calcs'
+    fcid = db.Column(db.Integer, primary_key = True)
+    lease_no = db.Column(db.String(), nullable = False)
+    lease_co = db.Column(db.String(), nullable = False)
+    lease_type = db.Column(db.String(), nullable = False)
+    month = db.Column(db.String(), nullable = False)
+    op_lease_liab = db.Column(db.Float(), nullable = True)
+    int_exp = db.Column(db.Float(), nullable = True)
+    rent_paid = db.Column(db.Float(), nullable = True)
+    cl_lease_liab = db.Column(db.Float(), nullable = True)
+    op_rou_asset = db.Column(db.Float(), nullable = True)
+    amortisation = db.Column(db.Float(), nullable = True)
+    cl_rou_asset = db.Column(db.Float(), nullable = True)
+    lease_id = db.Column(db.Integer, db.ForeignKey('lease_info.lid'), nullable=False)
 
-    def serialize (self):
-        return {
-            'pid': self.pid,
-            'ema': self.ema,
-            'nam': self.nam,
-            'children': [ a.serialize () for a in self.children ],
-        }
-
-    def __repr__ (self):
-        return '<Parent {}>'.format (self.ema)
-
-
-class Child (db.Model):
-    cid = db.Column (db.Integer, primary_key = True)
-    nam = db.Column (db.String (255), nullable = False)
-
-    parent_pid = db.Column(db.Integer, db.ForeignKey ('parent.pid'), nullable = False)
-    
-    def serialize (self):
-        return {
-            'cid': self.cid,
-            'nam': self.nam,
-        }
-
-    def __repr__ (self):
-        return '<Child {}>'.format (self.nam)
+db.create_all()

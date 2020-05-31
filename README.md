@@ -69,3 +69,28 @@ Run this project locally.
 `$ python run.py`
 
 leaseproject-278617:asia-south1:leasedb
+
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/7.14.6/firebase-analytics.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAsdfmtsIUEDuD_u1TiUDz-s2HWNUETl0s",
+    authDomain: "ifrs16project.firebaseapp.com",
+    databaseURL: "https://ifrs16project.firebaseio.com",
+    projectId: "ifrs16project",
+    storageBucket: "ifrs16project.appspot.com",
+    messagingSenderId: "244857188028",
+    appId: "1:244857188028:web:13978a9937f96c8a14eab9",
+    measurementId: "G-Z2TKP59EHN"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>

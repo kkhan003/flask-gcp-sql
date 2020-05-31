@@ -1,0 +1,80 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h5>Enter all your lease details below..and then press 'See output'</h5>
+
+<table class="table table-striped table-bordered table-hover table-sm table-condensed">
+  <thead>
+    <tr>
+      <th scope="col">lid</th>
+      <th scope="col">lease_no</th>
+      <th scope="col">lease_co</th>
+      <th scope="col">lease_type</th>
+      <th scope="col">payment_terms</th>
+      <th scope="col">period_desc</th>
+      <th scope="col">start_date</th>
+      <th scope="col">end_date</th>
+      <th scope="col">rate</th>
+      <th scope="col">rental</th>
+      <th scope="col">actions</th>
+      <th scope="col">edit</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for i in data %}
+    <tr>
+      <!-- <th scope="row">{{i.lid}}</th> -->
+      <td>{{i.lid}}</td>
+      <td>{{i.lease_no}}</td>
+      <td>{{i.lease_co}}</td>
+      <td>{{i.lease_type}}</td>
+      <td>{{i.payment_terms}}</td>
+      <td>{{i.period_desc}}</td>
+      <td>{{i.start_date.strftime('%Y-%m-%d')}}</td>
+      <td>{{i.end_date.strftime('%Y-%m-%d')}}</td>
+      <td>{{i.rate}}</td>
+      <td>{{i.rental}}</td>
+      <td>
+        <form
+          action="{{ url_for('yourleasesdelete', leaseid = i.lid) }}"
+          method="POST"
+        >
+          <input type="submit" value="Delete" />
+        </form>
+      </td>
+      <td>
+        <form
+          action="{{ url_for('yourleasesedit', leaseid = i.lid) }}"
+          method="GET"
+        >
+          <input type="submit" value="Edit" />
+        </form>
+      </td>
+    </tr>
+    {% endfor %}
+    <form action="/home/new" method="POST">
+      <tr>
+        <td>...</td>
+        {{ form.csrf_token }}
+        <td>{{ form.lease_no }}</td>
+        <td>{{ form.lease_co }}</td>
+        <td>{{ form.lease_type }}</td>
+        <td>{{ form.payment_terms }}</td>
+        <td>{{ form.period_desc }}</td>
+        <td>{{ form.start_date }}</td>
+        <td>{{ form.end_date }}</td>
+        <td>{{ form.rate }}</td>
+        <td>{{ form.rental }}</td>
+        <td>{{ form.submit }}</td>
+        <td></td>
+      </tr>
+    </form>
+  </tbody>
+</table>
+<div class="form-group">
+  <a class="btn btn-outline-info" href="{{ url_for('output') }}">See output</a>
+</div>
+
+{% endblock content %}
+
+
