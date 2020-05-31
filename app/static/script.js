@@ -7,7 +7,7 @@ window.addEventListener('load', function () {
 
     // FirebaseUI config.
     var uiConfig = {
-      signInSuccessUrl: '/home',
+      signInSuccessUrl: '/',
       credentialHelper: firebaseui.auth.CredentialHelper.NONE,
       signInOptions: [
         // Comment out any lines corresponding to providers you did not check in
@@ -27,7 +27,7 @@ window.addEventListener('load', function () {
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         // User is signed in, so display the "sign out" button and login info.
-        document.getElementById('login-info').hidden = false;
+        document.getElementById("lease-table").hidden = false;
         console.log(`Signed in as ${user.displayName} (${user.email})`);
         user.getIdToken().then(function (token) {
           // Add the token to the browser's cookies. The server will then be
