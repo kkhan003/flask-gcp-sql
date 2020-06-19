@@ -1,55 +1,78 @@
-window.addEventListener('load', function () {
-    document.getElementById('sign-out').onclick = function (){
-      firebase.auth().signOut();
-    };
-    
+function formatDate(date) {
+    var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
 
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
 
-    // FirebaseUI config.
-    var uiConfig = {
-      signInSuccessUrl: '/',
-      credentialHelper: firebaseui.auth.CredentialHelper.NONE,
-      signInOptions: [
-        // Comment out any lines corresponding to providers you did not check in
-        // the Firebase console.
-        firebase.auth.GoogleAuthProvider.PROVIDER_ID,
-        firebase.auth.EmailAuthProvider.PROVIDER_ID,
-        //firebase.auth.FacebookAuthProvider.PROVIDER_ID,
-        //firebase.auth.TwitterAuthProvider.PROVIDER_ID,
-        //firebase.auth.GithubAuthProvider.PROVIDER_ID,
-        //firebase.auth.PhoneAuthProvider.PROVIDER_ID
-  
-      ],
-      // Terms of service url.
-      tosUrl: '<your-tos-url>'
+    return [year, month, day].join('-');
+}
+
+var period = document.getElementById("period_desc").value
+document.getElementById("period_desc").onchange = function() {
+    period = document.getElementById("period_desc").value;
+    document.getElementById("start_date").value = null;
+    document.getElementById("end_date").value = null;
+    document.getElementById("start_date").disabled = false;
+    document.querySelectorAll('input[value="--select an option--"]').disabled = true;
+    // document.getElementById("--select an option--").disabled = true;
+    document.getElementById("end_date").disabled = true;
+        console.log(period);
+};
+console.log(period)
+
+var s_date = document.getElementById("start_date").value;
+document.getElementById("start_date").onchange = function() {
+    s_date = document.getElementById("start_date").value;
+    s_date = new Date(s_date);
+    console.log(s_date.getFullYear());
+    var min_date = s_date
+    switch (period) {
+        case 'Yearly':
+            min_date.setFullYear(s_date.getFullYear() + 1);
+            min_date.setDate(min_date.getDate() - 1)
+            min_date = formatDate(min_date)
+            document.getElementById("end_date").setAttribute("min", min_date);
+            console.log("Kuta");
+            break;
+        case 'Quarterly':
+            min_date.setMonth(s_date.getMonth() + 3);
+            min_date.setDate(min_date.getDate() - 1)
+            min_date = formatDate(min_date)
+            document.getElementById("end_date").setAttribute("min", min_date);
+            console.log("Billi");
+            break;
+        case 'Monthly':
+            min_date.setMonth(s_date.getMonth() + 1);
+            min_date.setDate(min_date.getDate() - 1)
+            min_date = formatDate(min_date)
+            document.getElementById("end_date").setAttribute("min", min_date);
+            console.log("Billi");
+            break;
+        case 'Bi-monthly':
+            min_date.setMonth(s_date.getMonth() + 2);
+            min_date.setDate(min_date.getDate() - 1)
+            min_date = formatDate(min_date)
+            document.getElementById("end_date").setAttribute("min", min_date);
+            console.log("Billi");
+            break;
+        case 'Tri-annual':
+            min_date.setMonth(s_date.getMonth() + 4);
+            min_date.setDate(min_date.getDate() - 1)
+            min_date = formatDate(min_date)
+            document.getElementById("end_date").setAttribute("min", min_date);
+            console.log("Billi");                    break;
+        case 'Semi-annual':
+            min_date.setMonth(s_date.getMonth() + 6);
+            min_date.setDate(min_date.getDate() - 1)
+            min_date = formatDate(min_date)
+            document.getElementById("end_date").setAttribute("min", min_date);
+            console.log("Billi");
     };
-  
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        // User is signed in, so display the "sign out" button and login info.
-        document.getElementById("lease-table").hidden = false;
-        console.log(`Signed in as ${user.displayName} (${user.email})`);
-        user.getIdToken().then(function (token) {
-          // Add the token to the browser's cookies. The server will then be
-          // able to verify the token against the API.
-          // SECURITY NOTE: As cookies can easily be modified, only put the
-          // token (which is verified server-side) in a cookie; do not add other
-          // user information.
-          document.cookie = "token=" + token;
-        });
-      } else {
-        // User is signed out.
-        // Initialize the FirebaseUI Widget using Firebase.
-        var ui = new firebaseui.auth.AuthUI(firebase.auth());
-        // Show the Firebase login button.
-        ui.start('#firebaseui-auth-container', uiConfig);
-        // Update the login state indicators.
-        document.getElementById('sign-out').hidden = true;
-        // Clear the token cookie.
-        document.cookie = "token=";
-      }
-    }, function (error) {
-      console.log(error);
-      alert('Unable to log in: ' + error)
-    });
-  });
+    document.getElementById("end_date").disabled = false;
+};
+console.log(s_date);

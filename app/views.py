@@ -33,11 +33,11 @@ def root():
         'index.html',
         user_data=claims, error_message=error_message, form=form, data=leasedet)
 
-@app.route('/home', methods=['GET', 'POST'])
-def home():
-    leasedet = models.LeaseInfo.query.order_by('lid').all()
-    form = forms.LeaseDetails()
-    return render_template('home.html', title='Home', form=form, data=leasedet)
+# @app.route('/home', methods=['GET', 'POST'])
+# def home():
+#     leasedet = models.LeaseInfo.query.order_by('lid').all()
+#     form = forms.LeaseDetails()
+#     return render_template('home.html', title='Home', form=form, data=leasedet)
 
 @app.route("/output", methods=['GET', 'POST'])
 def output():
