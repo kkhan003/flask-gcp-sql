@@ -52,6 +52,19 @@ def single_lease(m_df):
     elif per_desc == 'Monthly':
         payment_period = relativedelta(months=1)
 
+    if per_desc == 'Yearly':
+        payment_period2 = 365
+    elif per_desc == 'Semi-annual':
+        payment_period2 = 182.5
+    elif per_desc == 'Quarterly':
+        payment_period2 = 90.25
+    elif per_desc == 'Tri-annual':
+        payment_period2 = 121.67
+    elif per_desc == 'Bi-monthly':
+        payment_period2 = 60.83
+    elif per_desc == 'Monthly':
+        payment_period2 = 12.16
+
 
     # %%
     payment_dates = []
@@ -75,24 +88,17 @@ def single_lease(m_df):
 
 
     # %%
-    ((e_date - calcs2.loc[len(calcs2)-1,'payment_date'])/(calcs2.loc[len(calcs2)-1,'payment_date']-calcs2.loc[len(calcs2)-2,'payment_date']))
-
-
-    # %%
     payment_period.days
 
 
     # %%
     if p_terms == 'Advance':
-        calcs2.loc[len(calcs2)-1,'rental'] = calcs2.loc[len(calcs2)-1,'rental'] * ((e_date - calcs2.loc[len(calcs2)-1,'payment_date'])/     (calcs2.loc[len(calcs2)-1,'payment_date']-calcs2.loc[len(calcs2)-2,'payment_date']))
+        calcs2.loc[len(calcs2)-1,'rental'] = calcs2.loc[len(calcs2)-1,'rental'] * ((e_date - calcs2.loc[len(calcs2)-1,'payment_date']).days/payment_period2)
     else:
         if calcs2.loc[len(calcs2)-1,'payment_date'] != e_date:
             calcs2.loc[len(calcs2),'payment_date'] = e_date
-            calcs2.loc[len(calcs2)-1,'rental'] = rent * ((e_date - calcs2.loc[len(calcs2)-2,'payment_date'])/(calcs2.loc[len(calcs2)-2,         'payment_date']-calcs2.loc[len(calcs2)-3,'payment_date']))
+            calcs2.loc[len(calcs2)-1,'rental'] = rent * ((e_date - calcs2.loc[len(calcs2)-2,'payment_date']).days/payment_period2)
 
-
-    # %%
-    e_date - calcs2.loc[len(calcs2)-2,'payment_date']
 
 
     # %%
